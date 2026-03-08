@@ -1,6 +1,9 @@
 export default defineNuxtConfig({
-  modules: ['granada'],
+  modules: ['../src/module'],
   devtools: { enabled: true },
   compatibilityDate: 'latest',
-  granada: {},
+  granada: {
+    databaseUrl: process.env.GRANADA_DATABASE_URL,
+    databaseAuthToken: process.env.GRANADA_AUTH_TOKEN,
+  },
 })

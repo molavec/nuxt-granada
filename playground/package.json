@@ -8,7 +8,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "granada": "latest",
+    "@granada/core": "latest",
     "nuxt": "^4.3.1"
   }
 }

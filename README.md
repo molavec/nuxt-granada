@@ -1,84 +1,40 @@
-<!--
-Get your module up and running quickly.
+# @granada/core 🌟
 
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: My Module
-- Package name: granada
-- Description: My new Nuxt module
--->
+Granada CMS Core is a headless CMS and modern website builder built natively as a **Nuxt Module**. It is designed as an agile, zero-friction alternative to WordPress. The module automatically injects a sleek Admin UI, fully functional Nitro API routes, and a dynamic frontend Catch-All renderer into any Nuxt application that installs it.
 
-# My Module
+## Features ✨
+- **Zero-Config Admin UI**: Accessible out of the box at `/admin`.
+- **Modern Tech Stack**: Nuxt 4, Tailwind CSS, Nuxt UI minimalist design language.
+- **Serverless Database**: Powered by Drizzle ORM and Turso (libSQL).
+- **Injected Catch-All Renderer**: Renders dynamic Markdown content on the frontend automatically.
 
-[![npm version][npm-version-src]][npm-version-href]
-[![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![License][license-src]][license-href]
-[![Nuxt][nuxt-src]][nuxt-href]
+---
 
-My new Nuxt module for doing amazing things.
+## 🚀 Getting Started (Playground)
 
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
-<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/granada?file=playground%2Fapp.vue) -->
-<!-- - [📖 &nbsp;Documentation](https://example.com) -->
+To run the playground and test the module locally, follow these steps:
 
-## Features
+### 1. Environment Setup
+Create a `.env` file in the root of the project (or inside `/playground`):
 
-<!-- Highlight some of the features your module provide here -->
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
-- 🌲 &nbsp;Baz
-
-## Quick Setup
-
-Install the module to your Nuxt application with one command:
-
-```bash
-npx nuxt module add granada
+```env
+# Your Turso Database Credentials
+GRANADA_DATABASE_URL="libsql://your-db-name.turso.io"
+GRANADA_AUTH_TOKEN="your-turso-auth-token"
 ```
 
-That's it! You can now use My Module in your Nuxt app ✨
+*Note: Since the DB connects over HTTP with libSQL, local file databases like `file:local.db` will also work if you omit the auth token!*
 
+### 2. Install Dependencies
+```bash
+pnpm install
+```
 
-## Contribution
+### 3. Run the Development Server
+```bash
+npm run dev
+```
 
-<details>
-  <summary>Local development</summary>
-  
-  ```bash
-  # Install dependencies
-  npm install
-  
-  # Generate type stubs
-  npm run dev:prepare
-  
-  # Develop with the playground
-  npm run dev
-  
-  # Build the playground
-  npm run dev:build
-  
-  # Run ESLint
-  npm run lint
-  
-  # Run Vitest
-  npm run test
-  npm run test:watch
-  
-  # Release new version
-  npm run release
-  ```
-
-</details>
-
-
-<!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/granada/latest.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-version-href]: https://npmjs.com/package/granada
-
-[npm-downloads-src]: https://img.shields.io/npm/dm/granada.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-downloads-href]: https://npm.chart.dev/granada
-
-[license-src]: https://img.shields.io/npm/l/granada.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/granada
-
-[nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt
-[nuxt-href]: https://nuxt.com
+### 4. Explore
+- **Admin Panel**: Visit [http://localhost:3000/admin](http://localhost:3000/admin) to manage your pages, blog posts, and active themes.
+- **Frontend App**: Visit [http://localhost:3000/](http://localhost:3000/) to see your dynamic content rendered through the Catch-All route injector.
