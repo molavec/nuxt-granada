@@ -1,5 +1,3 @@
-import 'dotenv/config'
-
 export default {
   schema: './src/runtime/db/schema.ts',
   out: './drizzle',
