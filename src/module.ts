@@ -47,6 +47,25 @@ export default defineNuxtModule<ModuleOptions>({
     },
   },
   async setup(options, nuxt) {
+    // get all modules dependencies
+    // const mDependencies = nuxt.options.modules
+    // console.log('>>>>>>mDependencies>>>>>>>', mDependencies)
+
+    // 1. Wait until all modules are finished loading
+    nuxt.hook('modules:done', () => {
+      // 2. Access the resolved modules metadata
+      const installedModules = nuxt.options._installedModules
+      installedModules.forEach(({ meta, timings, entryPath }) => {
+        console.log(`Module Name: ${meta.name}`)
+        console.log(`Version: ${meta.version || 'unknown'}`)
+        console.log(`Config Key: ${meta.configKey}`)
+        // Some modules might have description field too
+        if (meta.description) {
+          console.log(`Description: ${meta.description}`)
+        }
+      })
+    })
+
     // Inject options into runtimeConfig
     nuxt.options.runtimeConfig.granada = {
       databaseUrl: options.databaseUrl,
