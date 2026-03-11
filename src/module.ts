@@ -55,15 +55,16 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hook('modules:done', () => {
       // 2. Access the resolved modules metadata
       const installedModules = nuxt.options._installedModules
-      installedModules.forEach(({ meta, timings, entryPath }) => {
-        console.log(`Module Name: ${meta.name}`)
-        console.log(`Version: ${meta.version || 'unknown'}`)
-        console.log(`Config Key: ${meta.configKey}`)
-        // Some modules might have description field too
-        if (meta.description) {
-          console.log(`Description: ${meta.description}`)
-        }
-      })
+      const modulesMetadata = installedModules.map(({ meta }) => ({
+        name: meta.name,
+        version: meta.version || 'unknown',
+        configKey: meta.configKey,
+        description: meta.description || '',
+      }))
+
+      // Inject into public runtimeConfig so frontend can access
+      nuxt.options.runtimeConfig.public = nuxt.options.runtimeConfig.public || {}
+      nuxt.options.runtimeConfig.public.granadaModules = modulesMetadata
     })
 
     // Inject options into runtimeConfig
@@ -97,6 +98,12 @@ export default defineNuxtModule<ModuleOptions>({
         name: 'granada-admin-editor',
         path: '/admin/editor/:id',
         file: resolver.resolve('./runtime/pages/admin/editor/[id].vue'),
+      })
+      // Admin modules
+      pages.push({
+        name: 'granada-admin-modules',
+        path: '/admin/modules',
+        file: resolver.resolve('./runtime/pages/admin/modules.vue'),
       })
       // Admin settings
       pages.push({
