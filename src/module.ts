@@ -47,6 +47,8 @@ export default defineNuxtModule<ModuleOptions>({
     },
   },
   async setup(options, nuxt) {
+    nuxt.options.css.push(resolver.resolve('./runtime/assets/css/main.css'))
+
     // get all modules dependencies
     // const mDependencies = nuxt.options.modules
     // console.log('>>>>>>mDependencies>>>>>>>', mDependencies)
