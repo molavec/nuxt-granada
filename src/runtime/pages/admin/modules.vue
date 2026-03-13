@@ -12,7 +12,7 @@
           </p>
         </div>
         <div class="flex items-center gap-3">
-          <div class="px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg text-sm font-medium flex items-center gap-2">
+          <div class="px-3 py-1.5 bg-granada-50 text-granada-700 rounded-lg text-sm font-medium flex items-center gap-2">
             <div class="w-4 h-4 i-lucide-box" />
             {{ modules.length }} Modules
           </div>
@@ -25,13 +25,13 @@
           <div
             v-for="mod in modules"
             :key="mod.name"
-            class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col hover:border-indigo-300 hover:shadow-md hover:-translate-y-1 transition-all duration-300 group"
+            class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col hover:border-granada-300 hover:shadow-md hover:-translate-y-1 transition-all duration-300 group"
           >
             <div class="flex items-start justify-between mb-4">
-              <div class="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 group-hover:border-indigo-100 transition-colors">
+              <div class="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-granada-50 group-hover:text-granada-600 group-hover:border-granada-100 transition-colors">
                 <div class="w-6 h-6 i-lucide-package" />
               </div>
-              <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-slate-100 text-slate-600 group-hover:bg-indigo-100 group-hover:text-indigo-700 transition-colors">
+              <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-slate-100 text-slate-600 group-hover:bg-granada-100 group-hover:text-granada-700 transition-colors">
                 v{{ mod.version }}
               </span>
             </div>

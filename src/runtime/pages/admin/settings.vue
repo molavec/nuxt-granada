@@ -19,7 +19,7 @@
             </p>
             <select
               v-model="form.active_theme"
-              class="w-full md:w-1/2 px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+              class="w-full md:w-1/2 px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-granada-600/20 focus:border-granada-600 outline-none transition-all"
             >
               <option value="basic">
                 Basic (Default)
@@ -37,7 +37,7 @@
         <div class="pt-6 border-t border-slate-100 flex justify-end">
           <button
             :disabled="saving"
-            class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-8 py-2.5 rounded-2xl font-semibold shadow-sm transition-colors"
+            class="bg-granada-600 hover:bg-granada-700 disabled:opacity-50 text-white px-8 py-2.5 rounded-2xl font-semibold shadow-sm transition-colors"
             @click="handleSave"
           >
             {{ saving ? 'Saving...' : 'Save Settings' }}

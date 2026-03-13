@@ -27,7 +27,7 @@
         </p>
         <NuxtLink
           to="/"
-          class="text-indigo-600 mt-6 inline-block font-semibold hover:underline"
+          class="text-granada-600 mt-6 inline-block font-semibold hover:underline"
         >Go Home</NuxtLink>
       </div>
     </div>

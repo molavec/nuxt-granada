@@ -11,14 +11,14 @@
     </Head>
 
     <!-- Sidebar -->
-    <aside class="fixed top-0 left-0 h-screen w-56 bg-white border-r border-slate-200 shadow-sm z-20 flex flex-col">
+    <aside class="fixed top-0 left-0 h-screen w-48 bg-white border-r border-slate-200 shadow-sm z-20 flex flex-col">
       <div class="p-4 pb-2">
         <!-- Logo Area -->
         <div class="flex items-center gap-3 px-1 mt-1">
-          <div class="w-8 h-8 rounded-lg bg-granada-600 text-white flex items-center justify-center font-bold text-base shadow-sm shadow-indigo-200">
+          <div class="w-8 h-8 rounded-lg bg-granada-600 text-white flex items-center justify-center font-bold text-base shadow-sm shadow-granada-200">
             G
           </div>
-          <span class="font-bold text-lg tracking-tight text-slate-900">Granada CMS</span>
+          <span class="font-bold text-lg tracking-tight text-slate-900">Granada</span>
         </div>
       </div>
 

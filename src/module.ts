@@ -35,6 +35,38 @@ export default defineNuxtModule<ModuleOptions>({
       },
       defaults: {
         config: {
+          theme: {
+            extend: {
+              colors: {
+                granada: {
+                  50: 'oklch(0.97 0.02 25)',
+                  100: 'oklch(0.93 0.05 25)',
+                  200: 'oklch(0.85 0.10 25)',
+                  300: 'oklch(0.75 0.15 25)',
+                  400: 'oklch(0.65 0.20 25)',
+                  500: 'oklch(0.55 0.22 25)',
+                  600: 'oklch(0.48 0.20 25)',
+                  700: 'oklch(0.40 0.16 25)',
+                  800: 'oklch(0.32 0.12 25)',
+                  900: 'oklch(0.25 0.08 25)',
+                  950: 'oklch(0.18 0.05 25)',
+                },
+                cream: {
+                  50: 'oklch(0.99 0.01 90)',
+                  100: 'oklch(0.97 0.03 90)',
+                  200: 'oklch(0.92 0.06 90)',
+                  300: 'oklch(0.86 0.09 90)',
+                  400: 'oklch(0.78 0.12 90)',
+                  500: 'oklch(0.72 0.14 90)',
+                  600: 'oklch(0.62 0.12 90)',
+                  700: 'oklch(0.52 0.10 90)',
+                  800: 'oklch(0.42 0.08 90)',
+                  900: 'oklch(0.32 0.06 90)',
+                  950: 'oklch(0.25 0.04 90)',
+                },
+              },
+            },
+          },
           content: {
             files: [
               resolver.resolve('./runtime/**/*.{vue,mjs,ts}'),
@@ -47,7 +79,7 @@ export default defineNuxtModule<ModuleOptions>({
     },
   },
   async setup(options, nuxt) {
-    nuxt.options.css.push(resolver.resolve('./runtime/assets/css/main.css'))
+    // nuxt.options.css.push(resolver.resolve('./runtime/assets/css/main.css'))
 
     // get all modules dependencies
     // const mDependencies = nuxt.options.modules

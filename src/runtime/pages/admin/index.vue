@@ -15,7 +15,7 @@
           <h3 class="text-slate-500 font-medium">
             Total Content
           </h3>
-          <div class="text-4xl font-bold tracking-tight text-indigo-600">
+          <div class="text-4xl font-bold tracking-tight text-granada-600">
             {{ contentCount }}
           </div>
         </div>
@@ -29,7 +29,7 @@
           </div>
         </div>
 
-        <div class="bg-gradient-to-br from-indigo-600 to-purple-600 p-6 rounded-3xl shadow-[0_8px_30px_rgb(99,102,241,0.2)] text-white flex flex-col justify-between h-40">
+        <div class="bg-gradient-to-br from-granada-600 to-granada-800 p-6 rounded-3xl shadow-xl shadow-granada-600/20 text-white flex flex-col justify-between h-40">
           <h3 class="text-white/80 font-medium">
             Quick Action
           </h3>

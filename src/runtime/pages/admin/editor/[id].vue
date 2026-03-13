@@ -23,7 +23,7 @@
           </button>
           <button
             :disabled="saving"
-            class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-6 py-2.5 rounded-2xl font-semibold shadow-sm transition-colors"
+            class="bg-granada-600 hover:bg-granada-700 disabled:opacity-50 text-white px-6 py-2.5 rounded-2xl font-semibold shadow-sm transition-colors"
             @click="handleSave"
           >
             {{ saving ? 'Saving...' : 'Save Changes' }}
@@ -38,7 +38,7 @@
             <input
               v-model="form.title"
               type="text"
-              class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all placeholder:text-slate-400"
+              class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-granada-600/20 focus:border-granada-600 outline-none transition-all placeholder:text-slate-400"
               placeholder="e.g. My Awesome Post"
             >
           </div>
@@ -47,7 +47,7 @@
             <input
               v-model="form.slug"
               type="text"
-              class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all placeholder:text-slate-400"
+              class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-granada-600/20 focus:border-granada-600 outline-none transition-all placeholder:text-slate-400"
               placeholder="e.g. my-awesome-post"
             >
           </div>
@@ -55,7 +55,7 @@
             <label class="block text-sm font-semibold text-slate-700">Content Type</label>
             <select
               v-model="form.content_type"
-              class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+              class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-granada-600/20 focus:border-granada-600 outline-none transition-all"
             >
               <option value="page">
                 Page
@@ -69,7 +69,7 @@
             <label class="block text-sm font-semibold text-slate-700">Status</label>
             <select
               v-model="form.status"
-              class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all"
+              class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-granada-600/20 focus:border-granada-600 outline-none transition-all"
             >
               <option value="draft">
                 Draft
@@ -86,7 +86,7 @@
           <textarea
             v-model="form.body_markdown"
             rows="12"
-            class="w-full px-4 py-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all font-mono text-sm resize-y"
+            class="w-full px-4 py-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-granada-600/20 focus:border-granada-600 outline-none transition-all font-mono text-sm resize-y"
             placeholder="# Write your markdown here..."
           />
         </div>

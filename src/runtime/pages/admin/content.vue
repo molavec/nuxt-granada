@@ -12,7 +12,7 @@
         </div>
         <NuxtLink
           to="/admin/editor/new"
-          class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-2xl font-semibold shadow-sm transition-colors"
+          class="bg-granada-600 hover:bg-granada-700 text-white px-5 py-2.5 rounded-2xl font-semibold shadow-sm transition-colors"
         >
           Create New
         </NuxtLink>
@@ -77,7 +77,7 @@
               <td class="py-4 px-6 text-right">
                 <NuxtLink
                   :to="`/admin/editor/${item.id}`"
-                  class="text-indigo-600 hover:text-indigo-800 font-medium px-4 py-2 hover:bg-indigo-50 rounded-xl transition-colors"
+                  class="text-granada-600 hover:text-granada-800 font-medium px-4 py-2 hover:bg-granada-50 rounded-xl transition-colors"
                 >
                   Edit
                 </NuxtLink>
