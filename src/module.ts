@@ -109,7 +109,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Inject Admin Layout as a Nuxt layout
     addLayout(
-      { src: resolver.resolve('./runtime/layouts/admin.vue') },
+      { src: resolver.resolve('./runtime/layouts/GranadaAdmin.vue') },
       'granada-admin',
     )
 
