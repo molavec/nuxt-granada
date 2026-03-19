@@ -1,5 +1,5 @@
 <template>
-  <GranadaAdminLayout>
+  <NuxtLayout>
     <div class="max-w-4xl mx-auto space-y-6">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">
@@ -92,13 +92,14 @@
         </div>
       </div>
     </div>
-  </GranadaAdminLayout>
+  </NuxtLayout>
 </template>
 
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter, useFetch } from '#imports'
-import GranadaAdminLayout from '../../../components/GranadaAdminLayout.vue'
+
+definePageMeta({ layout: 'granada-admin' })
 
 const route = useRoute()
 const router = useRouter()

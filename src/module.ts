@@ -3,7 +3,7 @@ import {
   createResolver,
   extendPages,
   addServerHandler,
-  addComponent,
+  addLayout,
 } from '@nuxt/kit'
 
 const resolver = createResolver(import.meta.url)
@@ -107,11 +107,11 @@ export default defineNuxtModule<ModuleOptions>({
       databaseAuthToken: options.databaseAuthToken,
     }
 
-    // Inject Admin Layout
-    addComponent({
-      name: 'GranadaAdminLayout',
-      filePath: resolver.resolve('./runtime/components/GranadaAdminLayout.vue'),
-    })
+    // Inject Admin Layout as a Nuxt layout
+    addLayout(
+      { src: resolver.resolve('./runtime/layouts/admin.vue') },
+      'granada-admin',
+    )
 
     // Inject Pages
     extendPages((pages) => {

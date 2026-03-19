@@ -37,7 +37,8 @@
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "clean": "rm -rf .nuxt && rm -rf playground/.nuxt"
   },
   "dependencies": {
     "@libsql/client": "latest",

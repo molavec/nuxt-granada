@@ -1,5 +1,5 @@
 <template>
-  <GranadaAdminLayout>
+  <NuxtLayout>
     <div class="space-y-6">
       <div class="flex items-center justify-between">
         <div>
@@ -87,12 +87,11 @@
         </table>
       </div>
     </div>
-  </GranadaAdminLayout>
+  </NuxtLayout>
 </template>
 
 <script setup>
-import { useFetch } from '#imports'
-import GranadaAdminLayout from '../../components/GranadaAdminLayout.vue'
+definePageMeta({ layout: 'granada-admin' })
 
 const { data: content } = await useFetch('/api/granada/content')
 </script>

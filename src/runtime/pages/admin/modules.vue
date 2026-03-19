@@ -1,5 +1,5 @@
 <template>
-  <GranadaAdminLayout>
+  <NuxtLayout>
     <div class="space-y-6">
       <!-- Header -->
       <div class="flex items-center justify-between">
@@ -81,11 +81,13 @@
         </div>
       </div>
     </div>
-  </GranadaAdminLayout>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-import { useRuntimeConfig, useHead } from '#imports'
+import { useRuntimeConfig, useHead, definePageMeta } from '#imports'
+
+definePageMeta({ layout: 'granada-admin' })
 
 useHead({
   title: 'Modules | Granada CMS',

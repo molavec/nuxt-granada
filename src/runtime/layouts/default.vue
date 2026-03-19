@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="min-h-screen bg-slate-50 text-slate-800 font-sans flex">
     <Head>
