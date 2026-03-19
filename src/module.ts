@@ -81,6 +81,12 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(options, nuxt) {
     // nuxt.options.css.push(resolver.resolve('./runtime/assets/css/main.css'))
 
+    // In dev mode, watch runtime dir so Nuxt auto-restarts on changes
+    // (avoids having to delete .nuxt manually)
+    if (nuxt.options.dev) {
+      nuxt.options.watch.push(resolver.resolve('./runtime'))
+    }
+
     // get all modules dependencies
     // const mDependencies = nuxt.options.modules
     // console.log('>>>>>>mDependencies>>>>>>>', mDependencies)
@@ -111,6 +117,10 @@ export default defineNuxtModule<ModuleOptions>({
     addLayout(
       { src: resolver.resolve('./runtime/layouts/GranadaAdmin.vue') },
       'granada-admin',
+    )
+    addLayout(
+      { src: resolver.resolve('./runtime/layouts/ContentEditor.vue') },
+      'content-editor',
     )
 
     // Inject Pages

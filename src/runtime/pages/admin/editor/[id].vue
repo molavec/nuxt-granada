@@ -99,7 +99,7 @@
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter, useFetch } from '#imports'
 
-definePageMeta({ layout: 'granada-admin' })
+definePageMeta({ layout: 'content-editor' })
 
 const route = useRoute()
 const router = useRouter()
