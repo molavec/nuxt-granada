@@ -4,6 +4,7 @@ import {
   extendPages,
   addServerHandler,
   addLayout,
+  addComponentsDir,
 } from '@nuxt/kit'
 
 const resolver = createResolver(import.meta.url)
@@ -120,9 +121,17 @@ export default defineNuxtModule<ModuleOptions>({
       'granada-admin',
     )
     addLayout(
-      { src: resolver.resolve('./runtime/layouts/ContentEditor.vue') },
-      'content-editor',
+      { src: resolver.resolve('./runtime/layouts/GranadaEditor.vue') },
+      'granada-editor',
     )
+
+    // Inject editor components directory (EditorHeader, LeftSidebar, RightSidebar, etc.)
+    await addComponentsDir({
+      path: resolver.resolve('./runtime/components'),
+      prefix: 'Granada',
+      pathPrefix: false, // GranadaEditorHeader, GranadaLeftSidebar, GranadaRightSidebar
+      global: true,
+    })
 
     // Inject Pages
     extendPages((pages) => {

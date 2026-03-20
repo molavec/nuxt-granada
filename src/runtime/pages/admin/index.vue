@@ -13,7 +13,6 @@
 
       <!-- Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
         <!-- Card: Total Content -->
         <div class="bg-white rounded-3xl p-8 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] border border-slate-100 flex flex-col justify-between aspect-[4/3] hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.10)] transition-shadow duration-300">
           <h3 class="text-sm font-semibold text-slate-400 tracking-wide">
@@ -57,18 +56,23 @@
             </NuxtLink>
           </div>
         </div>
-
       </div>
     </div>
 
     <!-- Floating Metrics Footer -->
     <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-30">
       <div class="bg-white/80 backdrop-blur-md border border-slate-200 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] rounded-full px-4 py-1.5 flex items-center gap-3 text-[10px] font-bold text-slate-400">
-        <Icon name="ph:activity-bold" class="text-sm text-slate-400" />
+        <Icon
+          name="ph:activity-bold"
+          class="text-sm text-slate-400"
+        />
         <span class="w-px h-3 bg-slate-200" />
         <span class="text-slate-500 tracking-wider">{{ responseTime }} ms</span>
         <span class="w-px h-3 bg-slate-200" />
-        <Icon name="ph:crosshair-simple-bold" class="text-sm text-slate-400" />
+        <Icon
+          name="ph:crosshair-simple-bold"
+          class="text-sm text-slate-400"
+        />
       </div>
     </div>
   </NuxtLayout>
