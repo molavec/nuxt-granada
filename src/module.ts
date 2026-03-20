@@ -27,8 +27,9 @@ export default defineNuxtModule<ModuleOptions>({
     databaseUrl: process.env.GRANADA_DATABASE_URL,
     databaseAuthToken: process.env.GRANADA_AUTH_TOKEN,
   },
-  // Install required Tailwind module
+  // Install required modules
   moduleDependencies: {
+    '@nuxt/icon': {},
     '@nuxtjs/tailwindcss': {
       overrides: {
         exposeConfig: true,
