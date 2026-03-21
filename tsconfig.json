@@ -4,5 +4,11 @@
     "dist",
     "node_modules",
     "playground",
-  ]
+  ],
+  "compilerOptions": {
+    "paths": {
+      "#granada": ["./src/runtime"],
+      "#granada/*": ["./src/runtime/*"]
+    }
+  }
 }

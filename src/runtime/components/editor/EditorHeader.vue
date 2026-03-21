@@ -189,7 +189,7 @@ onUnmounted(() => window.removeEventListener('resize', onResize))
 // ─── Selectores de viewport ─────────────────────────────────────
 const viewports = [
   { value: 'desktop', label: 'Desktop', icon: 'ph:desktop-bold' },
-  { value: 'tablet', label: 'Tablet', icon: 'ph:tablet-bold' },
+  { value: 'tablet', label: 'Tablet', icon: 'ph:device-tablet-bold' },
   { value: 'mobile', label: 'Móvil', icon: 'ph:device-mobile-bold' },
 ] as const
 

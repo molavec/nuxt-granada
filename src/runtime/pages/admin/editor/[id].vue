@@ -87,9 +87,9 @@ import { ref, computed } from 'vue'
 import { useRoute, useRouter, useFetch, definePageMeta } from '#imports'
 
 // Imports explícitos de componentes del editor (evita ambigüedad del prefijo de addComponentsDir)
-import EditorHeader from '../../../components/editor/EditorHeader.vue'
-import LeftSidebar from '../../../components/editor/LeftSidebar.vue'
-import RightSidebar from '../../../components/editor/RightSidebar.vue'
+import EditorHeader from '#granada/components/editor/EditorHeader.vue'
+import LeftSidebar from '#granada/components/editor/LeftSidebar.vue'
+import RightSidebar from '#granada/components/editor/RightSidebar.vue'
 
 definePageMeta({ layout: false }) // El layout lo gestiona NuxtLayout con name explícito
 
@@ -124,8 +124,8 @@ const rightSidebarRef = ref()
 // ─── Ancho del canvas según viewport ─────────────────────────
 const canvasWidthClass = computed(() => ({
   'w-full max-w-5xl': viewport.value === 'desktop',
-  'w-full max-w-xl': viewport.value === 'tablet',
-  'w-full max-w-sm': viewport.value === 'mobile',
+  'w-full max-w-3xl': viewport.value === 'tablet', // 768px (iPad portrait)
+  'w-full max-w-sm': viewport.value === 'mobile', // 384px (iPhone)
 }))
 
 // ─── Carga del contenido existente ───────────────────────────

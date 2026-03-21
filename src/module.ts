@@ -82,6 +82,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   async setup(options, nuxt) {
     // nuxt.options.css.push(resolver.resolve('./runtime/assets/css/main.css'))
+    nuxt.options.alias['#granada'] = resolver.resolve('./runtime')
 
     // In dev mode, watch runtime dir so Nuxt auto-restarts on changes
     // (avoids having to delete .nuxt manually)
@@ -130,7 +131,7 @@ export default defineNuxtModule<ModuleOptions>({
       path: resolver.resolve('./runtime/components'),
       prefix: 'Granada',
       pathPrefix: false, // GranadaEditorHeader, GranadaLeftSidebar, GranadaRightSidebar
-      global: true,
+      global: false,
     })
 
     // Inject Pages

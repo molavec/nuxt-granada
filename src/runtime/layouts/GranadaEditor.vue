@@ -21,22 +21,20 @@
     <!-- CUERPO: 3 columnas -->
     <div class="flex flex-1 overflow-hidden">
       <!-- SIDEBAR IZQUIERDO -->
-      <!-- En desktop: siempre visible. En móvil: toggle controlado por showLeftSidebar -->
       <aside
-        class="w-72 bg-white border-r border-slate-200 flex flex-col shrink-0 transition-all duration-300 overflow-hidden"
-        :class="showLeftSidebar ? 'translate-x-0' : '-translate-x-full w-0'"
+        class="bg-white flex flex-col shrink-0 transition-all duration-300 overflow-hidden"
+        :class="[
+          showLeftSidebar ? 'w-72 border-r border-slate-200 opacity-100' : 'w-0 border-r-0 opacity-0',
+          isMobile ? 'fixed inset-0 z-40 h-full shadow-2xl' : '',
+        ]"
       >
-        <!-- En móvil ocupa toda la pantalla como drawer -->
-        <div
-          class="flex flex-col h-full"
-          :class="isMobile ? 'fixed inset-0 z-40 w-72 bg-white border-r border-slate-200 shadow-2xl' : ''"
-        >
+        <div class="w-72 flex flex-col h-full shrink-0">
           <slot name="left-sidebar" />
         </div>
       </aside>
 
       <!-- CANVAS CENTRAL -->
-      <main class="flex-1 bg-slate-100 overflow-y-auto scroll-smooth relative">
+      <main class="flex-1 bg-slate-100 overflow-y-auto scroll-smooth relative transition-all duration-300">
         <!-- Overlay oscuro en móvil cuando un sidebar está abierto -->
         <Transition name="fade">
           <div
@@ -51,13 +49,13 @@
 
       <!-- SIDEBAR DERECHO (Layers + Properties) -->
       <aside
-        class="w-72 bg-white border-l border-slate-200 flex flex-col shrink-0 transition-all duration-300 overflow-hidden"
-        :class="showRightSidebar ? 'translate-x-0' : 'translate-x-full w-0'"
+        class="bg-white flex flex-col shrink-0 transition-all duration-300 overflow-hidden"
+        :class="[
+          showRightSidebar ? 'w-72 border-l border-slate-200 opacity-100' : 'w-0 border-l-0 opacity-0',
+          isMobile ? 'fixed inset-y-0 right-0 z-40 h-full shadow-2xl' : '',
+        ]"
       >
-        <div
-          class="flex flex-col h-full"
-          :class="isMobile ? 'fixed inset-y-0 right-0 z-40 w-72 bg-white border-l border-slate-200 shadow-2xl' : ''"
-        >
+        <div class="w-72 flex flex-col h-full shrink-0">
           <slot name="right-sidebar" />
         </div>
       </aside>
@@ -69,7 +67,6 @@
 import { ref, computed, onMounted, onUnmounted, provide } from 'vue'
 
 // ─── Estado de visibilidad de los sidebars ────────────────────
-// Se proveen al árbol de componentes hijos para que Header y Sidebars puedan togglear
 const showLeftSidebar = ref(true)
 const showRightSidebar = ref(true)
 
@@ -79,11 +76,6 @@ const isMobile = computed(() => windowWidth.value < 768)
 
 function onResize() {
   windowWidth.value = window.innerWidth
-  // En desktop siempre mostramos ambos sidebars
-  if (!isMobile.value) {
-    showLeftSidebar.value = true
-    showRightSidebar.value = true
-  }
 }
 
 onMounted(() => window.addEventListener('resize', onResize))
