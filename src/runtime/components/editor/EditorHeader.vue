@@ -60,23 +60,56 @@
       </div>
     </div>
 
-    <!-- ── ZONA CENTRAL: Selector de viewport ── -->
-    <div class="flex items-center bg-slate-100 p-1 rounded-2xl shrink-0">
-      <button
-        v-for="vp in viewports"
-        :key="vp.value"
-        class="w-9 h-7 flex items-center justify-center rounded-xl transition-all"
-        :class="activeViewport === vp.value
-          ? 'bg-white shadow-sm text-granada-500'
-          : 'text-slate-400 hover:text-slate-600'"
-        :title="vp.label"
-        @click="$emit('update:viewport', vp.value)"
-      >
-        <Icon
-          :name="vp.icon"
-          class="text-lg"
-        />
-      </button>
+    <!-- ── ZONA CENTRAL: Historial y Viewport ── -->
+    <div class="flex items-center gap-2 shrink-0">
+      <!-- Deshacer / Rehacer -->
+      <div class="flex items-center bg-slate-100 p-1 rounded-2xl hidden md:flex shrink-0">
+        <button
+          class="w-9 h-7 flex items-center justify-center rounded-xl transition-all"
+          :class="canUndo ? 'text-slate-600 hover:bg-white hover:shadow-sm' : 'text-slate-300 opacity-50 cursor-not-allowed'"
+          :disabled="!canUndo"
+          title="Deshacer (Ctrl+Z)"
+          @click="undo()"
+        >
+          <Icon
+            name="ph:arrow-u-up-left-bold"
+            class="text-lg"
+          />
+        </button>
+        <button
+          class="w-9 h-7 flex items-center justify-center rounded-xl transition-all"
+          :class="canRedo ? 'text-slate-600 hover:bg-white hover:shadow-sm' : 'text-slate-300 opacity-50 cursor-not-allowed'"
+          :disabled="!canRedo"
+          title="Rehacer (Ctrl+Shift+Z)"
+          @click="redo()"
+        >
+          <Icon
+            name="ph:arrow-u-up-right-bold"
+            class="text-lg"
+          />
+        </button>
+      </div>
+
+      <div class="h-5 w-px bg-slate-200 hidden md:block" />
+
+      <!-- Selector de Viewport -->
+      <div class="flex items-center bg-slate-100 p-1 rounded-2xl shrink-0">
+        <button
+          v-for="vp in viewports"
+          :key="vp.value"
+          class="w-9 h-7 flex items-center justify-center rounded-xl transition-all"
+          :class="activeViewport === vp.value
+            ? 'bg-white shadow-sm text-granada-500'
+            : 'text-slate-400 hover:text-slate-600'"
+          :title="vp.label"
+          @click="$emit('update:viewport', vp.value)"
+        >
+          <Icon
+            :name="vp.icon"
+            class="text-lg"
+          />
+        </button>
+      </div>
     </div>
 
     <!-- ── ZONA DERECHA: Acciones del editor ── -->
@@ -142,6 +175,9 @@
 <script setup lang="ts">
 import { inject, computed, ref, onMounted, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
+import { useEditorHistory } from '../../composables/useEditorHistory'
+
+const { undo, redo, canUndo, canRedo } = useEditorHistory()
 
 // ─── Props ──────────────────────────────────────────────────────
 interface Props {

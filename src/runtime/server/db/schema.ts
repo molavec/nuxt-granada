@@ -10,6 +10,7 @@ export const content = sqliteTable('content', {
   title: text('title').notNull(),
   slug: text('slug').notNull().unique(),
   body_markdown: text('body_markdown').notNull(),
+  body_json: text('body_json'),
   content_type: text('content_type', { enum: ['page', 'blog'] }).notNull(),
   status: text('status', { enum: ['published', 'draft'] }).notNull().default('draft'),
 })

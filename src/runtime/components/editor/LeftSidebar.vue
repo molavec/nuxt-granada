@@ -26,21 +26,22 @@
         v-if="activeTab === 'components'"
         class="p-5"
       >
-        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
-          Componentes
-        </p>
-        <!-- Placeholder: en Fase 3 y 4 se reemplaza con el grid de bloques arrastrables -->
-        <div class="grid grid-cols-2 gap-3">
-          <div
-            v-for="block in placeholderBlocks"
-            :key="block.type"
-            class="p-4 border border-slate-100 bg-slate-50 rounded-2xl flex flex-col items-center gap-2 hover:border-granada-200 hover:bg-granada-50 transition-all cursor-grab group"
-          >
-            <Icon
-              :name="block.icon"
-              class="text-2xl text-slate-400 group-hover:text-granada-500 transition-colors"
+        <div
+          v-for="category in blockCategories"
+          :key="category.name"
+          class="mb-6"
+        >
+          <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">
+            {{ category.name }}
+          </p>
+          <div class="grid grid-cols-2 gap-3">
+            <GranadaDraggableItem
+              v-for="block in category.items"
+              :key="block.type"
+              :type="block.type"
+              :label="block.label"
+              :icon="block.icon"
             />
-            <span class="text-[11px] font-semibold text-slate-600">{{ block.label }}</span>
           </div>
         </div>
       </div>
@@ -105,6 +106,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+import GranadaDraggableItem from '#granada/components/editor/DraggableItem.vue'
+import type { BlockType } from '../../types/editor'
+
 const activeTab = ref<'components' | 'settings'>('components')
 
 const tabs = [
@@ -112,13 +116,21 @@ const tabs = [
   { id: 'settings', label: 'Configuración', icon: 'ph:gear-six-bold' },
 ] as const
 
-// Placeholder — se reemplaza con los bloques reales en Fase 3 & 4
-const placeholderBlocks = [
-  { type: 'heading', label: 'Título', icon: 'ph:text-h-bold' },
-  { type: 'text', label: 'Texto', icon: 'ph:text-align-left-bold' },
-  { type: 'image', label: 'Imagen', icon: 'ph:image-bold' },
-  { type: 'button', label: 'Botón', icon: 'ph:cursor-click-bold' },
-  { type: 'section', label: 'Sección', icon: 'ph:bounding-box-bold' },
-  { type: 'divider', label: 'Divisor', icon: 'ph:minus-bold' },
+const blockCategories = [
+  {
+    name: 'Básicos',
+    items: [
+      { type: 'heading' as BlockType, label: 'Título', icon: 'ph:text-t-bold' },
+      { type: 'text' as BlockType, label: 'Texto', icon: 'ph:text-align-left-bold' },
+      { type: 'button' as BlockType, label: 'Botón', icon: 'ph:mouse-left-click-bold' },
+      { type: 'image' as BlockType, label: 'Imagen', icon: 'ph:image-bold' },
+    ],
+  },
+  {
+    name: 'Layout',
+    items: [
+      { type: 'section' as BlockType, label: 'Sección', icon: 'ph:square-half-bottom-bold' },
+    ],
+  },
 ]
 </script>

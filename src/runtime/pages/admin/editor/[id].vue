@@ -32,8 +32,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter, useFetch, definePageMeta } from '#imports'
+import { watchDebounced } from '@vueuse/core'
 
 // Imports explícitos de componentes del editor
 import EditorHeader from '#granada/components/editor/EditorHeader.vue'
@@ -126,6 +127,7 @@ function handlePreview() {
 }
 
 async function handleSave() {
+  if (!editorStore.isDirty && !isNew.value) return // Optimización: no `$fetch` repetitivo
   isSaving.value = true
   try {
     // Sincronizar store a form JSON antes de enviar
@@ -134,7 +136,7 @@ async function handleSave() {
     const url = isNew.value ? '/api/granada/content' : `/api/granada/content/${id}`
     const method = isNew.value ? 'POST' : 'PUT'
 
-    const response = await $fetch(url, { method, body: form.value })
+    const response = await $fetch<Record<string, unknown>>(url, { method, body: form.value })
     if (isNew.value && response && response.id) {
       router.push(`/admin/editor/${response.id}`)
     }
@@ -144,6 +146,10 @@ async function handleSave() {
   }
   catch (err) {
     console.error('Error al guardar:', err)
+    // Fallback nativo ya que @nuxt/ui no está instalado en este módulo
+    if (typeof window !== 'undefined') {
+      alert('Error de Red: No se pudieron guardar los últimos cambios en la Base de Datos.')
+    }
   }
   finally {
     isSaving.value = false
@@ -154,4 +160,34 @@ async function handlePublish() {
   form.value.status = 'published'
   await handleSave()
 }
+
+// ─── Auto-Guardado y Protección de Salida ────────────────────
+watchDebounced(
+  () => editorStore.isDirty,
+  (dirty) => {
+    if (dirty) {
+      handleSave()
+    }
+  },
+  { debounce: 2500 }, // 2.5s después del último type
+)
+
+const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+  if (editorStore.isDirty) {
+    event.preventDefault()
+    event.returnValue = ''
+  }
+}
+
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    window.addEventListener('beforeunload', handleBeforeUnload)
+  }
+})
+
+onBeforeUnmount(() => {
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('beforeunload', handleBeforeUnload)
+  }
+})
 </script>

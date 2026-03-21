@@ -7,8 +7,8 @@ export default defineEventHandler(async (event) => {
   const db = useDb()
 
   const result = await db.insert(content).values({
-    title: body.title,
-    slug: body.slug,
+    title: body.title || 'Página Sin Título',
+    slug: body.slug || `draft-${Date.now()}`,
     body_markdown: body.body_markdown ?? '',
     body_json: body.body_json ?? null,
     content_type: body.content_type ?? 'page',

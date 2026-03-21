@@ -6,10 +6,15 @@
     <div
       class="bg-white transition-all duration-300 min-h-[600px] w-full relative group"
       :class="[
-        store.viewportMode === 'mobile' ? 'max-w-[384px] shadow-2xl rounded my-4' : '',
-        store.viewportMode === 'tablet' ? 'max-w-[768px] shadow-2xl rounded my-4' : '',
-        store.viewportMode === 'desktop' ? 'max-w-[1280px] shadow-md rounded border border-gray-200' : '',
+        store.viewportMode === 'mobile' ? 'max-w-[384px] shadow-2xl rounded-[2rem] border-[12px] border-gray-900 my-4' : '',
+        store.viewportMode === 'tablet' ? 'max-w-[768px] shadow-2xl rounded-[1.5rem] border-[12px] border-gray-900 my-4' : '',
+        store.viewportMode === 'desktop' ? 'max-w-[1280px] shadow-md rounded-md border border-gray-200' : '',
+        isDraggingOver ? 'ring-4 ring-granada-400 bg-granada-50/30 outline-dashed outline-2 outline-granada-500' : '',
       ]"
+      @dragover.prevent
+      @dragenter.prevent="isDraggingOver = true"
+      @dragleave="isDraggingOver = false"
+      @drop="handleDrop"
     >
       <div
         class="h-full flex flex-col gap-1"
@@ -47,32 +52,42 @@
 </template>
 
 <script setup lang="ts">
-import { useEditorStore } from '../../stores/useEditorStore'
-import type { Block } from '../../types/editor'
+import { ref } from 'vue'
+import { useEditorStore, createEmptyBlock } from '../../stores/useEditorStore'
+import { useEditorShortcuts } from '../../composables/useEditorShortcuts'
+import type { Block, BlockType } from '../../types/editor'
 
 const store = useEditorStore()
+useEditorShortcuts()
 
-// Manejo de eventos en la capa raíz (Top-level blocks)
-const handleDelete = (childBlock: Block) => {
-  const index = store.blocks.findIndex(b => b.id === childBlock.id)
-  if (index !== -1) {
-    store.blocks.splice(index, 1)
-    store.isDirty = true
+const isDraggingOver = ref(false)
+
+const handleDrop = (event: DragEvent) => {
+  isDraggingOver.value = false
+  const blockType = event.dataTransfer?.getData('blockType') as BlockType | undefined
+  if (blockType) {
+    const newBlock = createEmptyBlock(blockType)
+    store.addBlock(newBlock)
+    store.selectBlock(newBlock.id)
   }
 }
 
+const handleDelete = (id: string) => {
+  store.deleteBlock(id)
+}
+
 const handleMoveUp = (index: number) => {
-  if (index <= 0) return
-  const temp = store.blocks[index]
-  store.blocks[index] = store.blocks[index - 1]
+  if (index <= 0 || !store.blocks[index] || !store.blocks[index - 1]) return
+  const temp = store.blocks[index] as Block
+  store.blocks[index] = store.blocks[index - 1] as Block
   store.blocks[index - 1] = temp
   store.isDirty = true
 }
 
 const handleMoveDown = (index: number) => {
-  if (index >= store.blocks.length - 1) return
-  const temp = store.blocks[index]
-  store.blocks[index] = store.blocks[index + 1]
+  if (index >= store.blocks.length - 1 || !store.blocks[index] || !store.blocks[index + 1]) return
+  const temp = store.blocks[index] as Block
+  store.blocks[index] = store.blocks[index + 1] as Block
   store.blocks[index + 1] = temp
   store.isDirty = true
 }
