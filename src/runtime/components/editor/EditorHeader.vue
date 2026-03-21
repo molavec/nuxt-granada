@@ -31,8 +31,23 @@
           </div>
         </div>
 
-        <!-- Botón Settings de la página (abre config en left sidebar) -->
+        <!-- Botón toggle sidebar izquierdo — solo móvil -->
         <button
+          class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-50 transition-all"
+          :class="showLeftSidebar
+            ? 'bg-granada-50 text-granada-500 border border-granada-100'
+            : 'text-slate-400 hover:bg-slate-50 hover:text-slate-600'"
+          title="Componentes"
+          @click="toggleLeftSidebar"
+        >
+          <Icon
+            name="ph:squares-four-bold"
+            class="text-lg"
+          />
+        </button>
+
+        <!-- TODO: molavec. No sé si hará realmente falta el botón Settings de la página (abre config en left sidebar). -->
+        <!-- <button
           class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-all"
           title="Configuración de la página"
           @click="$emit('open-settings')"
@@ -41,20 +56,8 @@
             name="ph:gear-six-bold"
             class="text-lg"
           />
-        </button>
+        </button> -->
       </div>
-
-      <!-- Botón toggle sidebar izquierdo — solo móvil -->
-      <button
-        class="md:hidden w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 transition-all"
-        title="Componentes"
-        @click="toggleLeftSidebar"
-      >
-        <Icon
-          name="ph:squares-four-bold"
-          class="text-lg"
-        />
-      </button>
     </div>
 
     <!-- ── ZONA CENTRAL: Selector de viewport ── -->
@@ -174,6 +177,7 @@ const editorLayout = inject<{
   toggleRightSidebar: () => void
 }>('editorLayout')
 
+const showLeftSidebar = editorLayout?.showLeftSidebar
 const showRightSidebar = editorLayout?.showRightSidebar
 const toggleLeftSidebar = editorLayout?.toggleLeftSidebar ?? (() => {})
 const toggleRightSidebar = editorLayout?.toggleRightSidebar ?? (() => {})
