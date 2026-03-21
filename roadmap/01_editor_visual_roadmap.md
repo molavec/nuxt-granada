@@ -71,7 +71,7 @@ editorState (Pinia store)
 
 **Nota:** Utilizar alias de importación desde `src/runtime/` para todos los componentes del módulo.
 
-**Canvas adaptable:** Dimensiones optimizadas para Desktop (5xl), Tablet (3xl - 768px) y Mobile (sm - 384px).
+**Canvas adaptable:** Dimensiones optimizadas para Desktop, Tablet (3xl - 768px) y Mobile (sm - 384px).
 
 ---
 
