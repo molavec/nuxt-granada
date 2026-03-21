@@ -123,7 +123,7 @@ const rightSidebarRef = ref()
 
 // ─── Ancho del canvas según viewport ─────────────────────────
 const canvasWidthClass = computed(() => ({
-  'w-full max-w-5xl': viewport.value === 'desktop',
+  'w-full': viewport.value === 'desktop',
   'w-full max-w-3xl': viewport.value === 'tablet', // 768px (iPad portrait)
   'w-full max-w-sm': viewport.value === 'mobile', // 384px (iPhone)
 }))
