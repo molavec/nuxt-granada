@@ -30,6 +30,8 @@ export default defineNuxtModule<ModuleOptions>({
   },
   // Install required modules
   moduleDependencies: {
+    '@vueuse/nuxt': {},
+    '@pinia/nuxt': {},
     '@nuxt/icon': {},
     '@nuxtjs/tailwindcss': {
       overrides: {

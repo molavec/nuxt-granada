@@ -5,6 +5,7 @@ export const content = sqliteTable('content', {
   title: text('title').notNull(),
   slug: text('slug').notNull().unique(),
   body_markdown: text('body_markdown').default(''),
+  body_json: text('body_json'),
   content_type: text('content_type').default('page'),
   status: text('status').default('draft'),
   created_at: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),

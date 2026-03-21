@@ -10,6 +10,7 @@ export default defineEventHandler(async (event) => {
     title: body.title,
     slug: body.slug,
     body_markdown: body.body_markdown ?? '',
+    body_json: body.body_json ?? null,
     content_type: body.content_type ?? 'page',
     status: body.status ?? 'draft',
   }).returning()

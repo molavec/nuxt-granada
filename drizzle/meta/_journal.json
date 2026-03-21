@@ -8,6 +8,13 @@
       "when": 1772991564792,
       "tag": "0000_hot_guardian",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1774060203309,
+      "tag": "0001_legal_iron_monger",
+      "breakpoints": true
     }
   ]
 }
