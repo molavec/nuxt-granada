@@ -127,6 +127,10 @@ export default defineNuxtModule<ModuleOptions>({
       { src: resolver.resolve('./runtime/layouts/GranadaEditor.vue') },
       'granada-editor',
     )
+    addLayout(
+      { src: resolver.resolve('./runtime/layouts/basic-page.vue') },
+      'basic-page',
+    )
 
     // Inject editor components directory (EditorHeader, LeftSidebar, RightSidebar, etc.)
     await addComponentsDir({

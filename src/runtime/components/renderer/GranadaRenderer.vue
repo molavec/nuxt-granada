@@ -19,8 +19,16 @@
 </template>
 
 <script setup lang="ts">
-import { resolveComponent } from 'vue'
+import type { Component } from 'vue'
 import type { Block, BlockType } from '../../types/editor'
+
+import {
+  GranadaBlockHeading,
+  GranadaBlockText,
+  GranadaBlockImage,
+  GranadaBlockButton,
+  GranadaBlockSection,
+} from '#components'
 
 defineProps<{
   blocks: Block[]
@@ -29,13 +37,13 @@ defineProps<{
 // El Renderer nativo no usa wrappers (sin bordes de edición ni toolbars).
 // Tampoco es reactivo al drag & drop, es un intérprete unidireccional purista V-BIND.
 const getComponentFor = (type: BlockType) => {
-  const componentMap: Record<BlockType, string> = {
-    heading: 'BlockHeading',
-    text: 'BlockText',
-    image: 'BlockImage',
-    button: 'BlockButton',
-    section: 'BlockSection',
+  const componentMap: Record<string, Component> = {
+    heading: GranadaBlockHeading as Component,
+    text: GranadaBlockText as Component,
+    image: GranadaBlockImage as Component,
+    button: GranadaBlockButton as Component,
+    section: GranadaBlockSection as Component,
   }
-  return resolveComponent(`Granada${componentMap[type]}`, false) || 'div'
+  return componentMap[type] || 'div'
 }
 </script>
