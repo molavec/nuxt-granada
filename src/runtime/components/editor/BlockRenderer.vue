@@ -14,8 +14,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, resolveComponent } from 'vue'
+import { computed } from 'vue'
+import type { Component } from 'vue'
 import type { Block } from '../../types/editor'
+
+import {
+  GranadaBlockHeading,
+  GranadaBlockText,
+  GranadaBlockImage,
+  GranadaBlockButton,
+  GranadaBlockSection,
+} from '#components'
 
 const props = defineProps<{
   block: Block
@@ -31,17 +40,16 @@ const handleDelete = (b: Block) => emit('delete', b)
 const handleMoveUp = (b: Block) => emit('moveUp', b)
 const handleMoveDown = (b: Block) => emit('moveDown', b)
 
-// Mapeo del prop 'type' al nombre del componente de Nuxt
+// Resolvemos componentes estáticamente usando imports
 const resolvedComponent = computed(() => {
-  const map: Record<string, string> = {
-    heading: 'GranadaBlockHeading',
-    text: 'GranadaBlockText',
-    image: 'GranadaBlockImage',
-    button: 'GranadaBlockButton',
-    section: 'GranadaBlockSection',
+  const map: Record<string, Component> = {
+    heading: GranadaBlockHeading as Component,
+    text: GranadaBlockText as Component,
+    image: GranadaBlockImage as Component,
+    button: GranadaBlockButton as Component,
+    section: GranadaBlockSection as Component,
   }
 
-  const componentName = map[props.block.type]
-  return componentName ? resolveComponent(componentName) : 'div'
+  return map[props.block.type] || 'div'
 })
 </script>
