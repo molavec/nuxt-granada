@@ -1,7 +1,5 @@
-import 'dotenv/config'
-
 export default {
-  schema: './src/runtime/db/schema.ts',
+  schema: './src/runtime/server/db/schema.ts',
   out: './drizzle',
   dialect: process.env.GRANADA_AUTH_TOKEN ? 'turso' : 'sqlite',
   dbCredentials: {

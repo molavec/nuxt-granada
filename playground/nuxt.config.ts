@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ['../src/module'],
+  modules: ['nuxt-granada', '@nuxtjs/tailwindcss'],
   devtools: { enabled: true },
   compatibilityDate: 'latest',
   granada: {

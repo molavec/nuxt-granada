@@ -1,121 +1,193 @@
 <template>
-  <GranadaAdminLayout>
-    <div class="max-w-4xl mx-auto space-y-6">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-4">
-          <NuxtLink to="/admin/content" class="w-10 h-10 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:border-slate-300 hover:text-slate-900 transition-colors shadow-sm">
-            &larr;
-          </NuxtLink>
-          <h1 class="text-3xl font-bold tracking-tight">{{ isNew ? 'Create Content' : 'Edit Content' }}</h1>
-        </div>
-        <div class="flex gap-3">
-          <button @click="handleDelete" v-if="!isNew" class="px-5 py-2.5 rounded-2xl font-semibold text-red-600 hover:bg-red-50 transition-colors">
-            Delete
-          </button>
-          <button @click="handleSave" :disabled="saving" class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white px-6 py-2.5 rounded-2xl font-semibold shadow-sm transition-colors">
-            {{ saving ? 'Saving...' : 'Save Changes' }}
-          </button>
-        </div>
-      </div>
+  <NuxtLayout name="granada-editor">
+    <!-- ── HEADER ── -->
+    <template #header>
+      <EditorHeader
+        :page-title="form.title"
+        :active-viewport="editorStore.viewportMode"
+        :is-dirty="editorStore.isDirty"
+        :is-saving="isSaving"
+        :last-saved="lastSaved"
+        @update:viewport="editorStore.setViewportMode($event)"
+        @save="handleSave"
+        @publish="handlePublish"
+        @preview="handlePreview"
+        @open-settings="openSettings"
+      />
+    </template>
 
-      <div class="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-8 space-y-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="space-y-2">
-            <label class="block text-sm font-semibold text-slate-700">Title</label>
-            <input v-model="form.title" type="text" class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all placeholder:text-slate-400" placeholder="e.g. My Awesome Post" />
-          </div>
-          <div class="space-y-2">
-            <label class="block text-sm font-semibold text-slate-700">Slug</label>
-            <input v-model="form.slug" type="text" class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all placeholder:text-slate-400" placeholder="e.g. my-awesome-post" />
-          </div>
-          <div class="space-y-2">
-            <label class="block text-sm font-semibold text-slate-700">Content Type</label>
-            <select v-model="form.content_type" class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all">
-              <option value="page">Page</option>
-              <option value="blog">Blog</option>
-            </select>
-          </div>
-          <div class="space-y-2">
-            <label class="block text-sm font-semibold text-slate-700">Status</label>
-            <select v-model="form.status" class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all">
-              <option value="draft">Draft</option>
-              <option value="published">Published</option>
-            </select>
-          </div>
-        </div>
+    <!-- ── SIDEBAR IZQUIERDO ── -->
+    <template #left-sidebar>
+      <LeftSidebar ref="leftSidebarRef" />
+    </template>
 
-        <div class="space-y-2 pt-4">
-          <label class="block text-sm font-semibold text-slate-700">Body (Markdown)</label>
-          <textarea v-model="form.body_markdown" rows="12" class="w-full px-4 py-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 outline-none transition-all font-mono text-sm resize-y" placeholder="# Write your markdown here..."></textarea>
-        </div>
-      </div>
-    </div>
-  </GranadaAdminLayout>
+    <!-- ── CANVAS CENTRAL ── -->
+    <GranadaEditorCanvas />
+
+    <!-- ── SIDEBAR DERECHO ── -->
+    <template #right-sidebar>
+      <RightSidebar ref="rightSidebarRef" />
+    </template>
+  </NuxtLayout>
 </template>
 
-<script setup>
-import { ref, computed, watch } from 'vue';
-import { useRoute, useRouter, useFetch } from '#imports';
-import GranadaAdminLayout from '../../../components/GranadaAdminLayout.vue';
+<script setup lang="ts">
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useRoute, useRouter, useFetch, definePageMeta } from '#imports'
+import { watchDebounced } from '@vueuse/core'
 
-const route = useRoute();
-const router = useRouter();
+// Imports explícitos de componentes del editor
+import EditorHeader from '#granada/components/editor/EditorHeader.vue'
+import LeftSidebar from '#granada/components/editor/LeftSidebar.vue'
+import RightSidebar from '#granada/components/editor/RightSidebar.vue'
+import GranadaEditorCanvas from '#granada/components/editor/EditorCanvas.vue'
+import { useEditorStore } from '#granada/stores/useEditorStore'
 
-const id = route.params.id;
-const isNew = computed(() => id === 'new');
+definePageMeta({ layout: false })
 
+// ─── Route / Router ───────────────────────────────────────────
+const route = useRoute()
+const router = useRouter()
+const id = route.params.id as string
+const isNew = computed(() => id === 'new')
+
+// ─── Estado del formulario ───────────────────────────────────
 const form = ref({
   title: '',
   slug: '',
   content_type: 'page',
   status: 'draft',
-  body_markdown: ''
-});
+  body_markdown: '',
+  body_json: null as string | null,
+})
 
-const saving = ref(false);
+// ─── Estado del editor (Store de Pinia) ──────────────────────
+const editorStore = useEditorStore()
+const isSaving = ref(false)
+const lastSaved = ref<Date | null>(null)
 
-if (!isNew.value) {
-  const { data } = await useFetch(`/api/granada/content/${id}`);
-  if (data.value) {
-    form.value = { ...data.value };
-  }
+const leftSidebarRef = ref()
+const rightSidebarRef = ref()
+
+const initDefaultBlocks = () => {
+  editorStore.setBlocks([
+    {
+      id: 'init-heading-1',
+      type: 'heading',
+      _version: 1,
+      props: { text: '¡Empieza a construir tu landing!', level: 'h1', align: 'center' },
+      children: [],
+    },
+  ])
+  editorStore.markSaved()
 }
 
-// Auto slug generation
-watch(() => form.value.title, (newTitle) => {
-  if (isNew.value && !form.value.slug) {
-    form.value.slug = newTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+// ─── Carga del contenido existente ───────────────────────────
+if (!isNew.value) {
+  const { data } = await useFetch(`/api/granada/content/${id}`)
+  if (data.value) {
+    form.value = { ...form.value, ...(data.value as typeof form.value) }
+
+    // Hidratar bloques del Visual Editor
+    if (form.value.body_json) {
+      try {
+        const parsedBlocks = JSON.parse(form.value.body_json)
+        if (Array.isArray(parsedBlocks) && parsedBlocks.length > 0) {
+          editorStore.setBlocks(parsedBlocks)
+          editorStore.markSaved()
+        }
+        else {
+          initDefaultBlocks()
+        }
+      }
+      catch (e) {
+        console.error('Error parseando body_json', e)
+        initDefaultBlocks()
+      }
+    }
+    else {
+      initDefaultBlocks()
+    }
   }
-});
+}
+else {
+  // Documento completamente nuevo
+  initDefaultBlocks()
+}
+
+// ─── Acciones ─────────────────────────────────────────────────
+function openSettings() {
+  // Se implementa en Fase 4
+}
+
+function handlePreview() {
+  if (form.value.slug) {
+    window.open(`/${form.value.slug}`, '_blank')
+  }
+}
 
 async function handleSave() {
-  saving.value = true;
+  if (!editorStore.isDirty && !isNew.value) return // Optimización: no `$fetch` repetitivo
+  isSaving.value = true
   try {
-    const url = isNew.value ? '/api/granada/content' : `/api/granada/content/${id}`;
-    const method = isNew.value ? 'POST' : 'PUT';
-    
-    await $fetch(url, {
-      method,
-      body: form.value
-    });
-    
-    router.push('/admin/content');
-  } catch (err) {
-    console.error('Failed to save', err);
-    alert('Failed to save');
-  } finally {
-    saving.value = false;
+    // Sincronizar store a form JSON antes de enviar
+    form.value.body_json = JSON.stringify(editorStore.blocks)
+
+    const url = isNew.value ? '/api/granada/content' : `/api/granada/content/${id}`
+    const method = isNew.value ? 'POST' : 'PUT'
+
+    const response = await $fetch<Record<string, unknown>>(url, { method, body: form.value })
+    if (isNew.value && response && response.id) {
+      router.push(`/admin/editor/${response.id}`)
+    }
+
+    editorStore.markSaved() // Reset de isDirty
+    lastSaved.value = new Date()
+  }
+  catch (err) {
+    console.error('Error al guardar:', err)
+    // Fallback nativo ya que @nuxt/ui no está instalado en este módulo
+    if (typeof window !== 'undefined') {
+      alert('Error de Red: No se pudieron guardar los últimos cambios en la Base de Datos.')
+    }
+  }
+  finally {
+    isSaving.value = false
   }
 }
 
-async function handleDelete() {
-  if (!confirm('Are you sure you want to delete this?')) return;
-  try {
-    await $fetch(`/api/granada/content/${id}`, { method: 'DELETE' });
-    router.push('/admin/content');
-  } catch (err) {
-    console.error('Failed to delete', err);
-    alert('Failed to delete');
+async function handlePublish() {
+  form.value.status = 'published'
+  await handleSave()
+}
+
+// ─── Auto-Guardado y Protección de Salida ────────────────────
+watchDebounced(
+  () => editorStore.isDirty,
+  (dirty) => {
+    if (dirty) {
+      handleSave()
+    }
+  },
+  { debounce: 2500 }, // 2.5s después del último type
+)
+
+const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+  if (editorStore.isDirty) {
+    event.preventDefault()
+    event.returnValue = ''
   }
 }
+
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    window.addEventListener('beforeunload', handleBeforeUnload)
+  }
+})
+
+onBeforeUnmount(() => {
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('beforeunload', handleBeforeUnload)
+  }
+})
 </script>
